@@ -1,20 +1,19 @@
 import axios from "axios";
 import "./Login.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .get("http://localhost:8080/restaurant/login", {
-        params: {
-          email: email,
-          password: password,
-        },
+      .post("http://localhost:8080/login", {
+        username: email,
+        password: password,
       })
       .then((response) => {
         console.log(response.data);
@@ -25,7 +24,8 @@ function Login() {
         }
       })
       .catch((error) => {
-        console.error("Opps login fail" + error);
+        alert("Enter valid user name");
+        console.error("Opps login fail", error);
       });
   };
 
@@ -46,7 +46,7 @@ function Login() {
         />
         <button type="submit">Submit</button>
       </form>
-      <a href="">Don't have an account? Sign-up</a>
+      <Link to="/signup">Don't have an account? Sign-up</Link>
     </div>
   );
 }
